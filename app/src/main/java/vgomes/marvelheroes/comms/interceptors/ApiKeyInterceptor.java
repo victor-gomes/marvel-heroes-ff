@@ -1,4 +1,4 @@
-package vgomes.marvel_heroes_client.comms.interceptors;
+package vgomes.marvelheroes.comms.interceptors;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -7,7 +7,7 @@ import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import vgomes.marvel_heroes_client.utils.Utils;
+import vgomes.marvelheroes.utils.Utils;
 
 /**
  * Created by victorgomes on 27/06/17.

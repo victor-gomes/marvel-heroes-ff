@@ -1,4 +1,4 @@
-package vgomes.marvel_heroes_client.utils;
+package vgomes.marvelheroes.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,9 +1,9 @@
-package vgomes.marvel_heroes_client;
+package vgomes.marvelheroes;
 
 import android.app.Application;
 
-import vgomes.marvel_heroes_client.comms.components.IRetrofitComponent;
-import vgomes.marvel_heroes_client.comms.components.RetrofitComponent;
+import vgomes.marvelheroes.comms.components.IRetrofitComponent;
+import vgomes.marvelheroes.comms.components.RetrofitComponent;
 
 /**
  * Created by victorgomes on 27/06/17.

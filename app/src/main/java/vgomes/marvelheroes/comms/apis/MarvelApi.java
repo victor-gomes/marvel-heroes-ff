@@ -1,11 +1,11 @@
-package vgomes.marvel_heroes_client.comms.apis;
+package vgomes.marvelheroes.comms.apis;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import vgomes.marvel_heroes_client.comms.consts.ApiConstants;
-import vgomes.marvel_heroes_client.comms.models.BaseResponse;
-import vgomes.marvel_heroes_client.comms.models.CharacterItemModel;
+import vgomes.marvelheroes.comms.consts.ApiConstants;
+import vgomes.marvelheroes.comms.models.BaseResponse;
+import vgomes.marvelheroes.comms.models.CharacterItemModel;
 
 /**
  * Created by victorgomes on 26/06/17.

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="vgomes.marvel_heroes_client.activities.LandingPageActivity">
+    tools:context="vgomes.marvelheroes.activities.LandingPageActivity">
 
     <TextView
         android:id="@+id/button"

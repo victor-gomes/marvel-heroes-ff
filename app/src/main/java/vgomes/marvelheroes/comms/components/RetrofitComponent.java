@@ -1,12 +1,12 @@
-package vgomes.marvel_heroes_client.comms.components;
+package vgomes.marvelheroes.comms.components;
 
 import com.google.gson.Gson;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import vgomes.marvel_heroes_client.comms.consts.ApiConstants;
-import vgomes.marvel_heroes_client.comms.interceptors.ApiKeyInterceptor;
+import vgomes.marvelheroes.comms.consts.ApiConstants;
+import vgomes.marvelheroes.comms.interceptors.ApiKeyInterceptor;
 
 /**
  * Created by victorgomes on 27/06/17.

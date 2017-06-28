@@ -1,4 +1,4 @@
-package vgomes.marvel_heroes_client;
+package vgomes.marvelheroes;
 
 import org.junit.Test;
 

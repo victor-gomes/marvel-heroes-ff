@@ -1,4 +1,4 @@
-package vgomes.marvel_heroes_client.comms.models;
+package vgomes.marvelheroes.comms.models;
 
 import com.google.gson.annotations.Expose;
 

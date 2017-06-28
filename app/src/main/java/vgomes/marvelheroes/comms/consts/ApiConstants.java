@@ -1,4 +1,4 @@
-package vgomes.marvel_heroes_client.comms.consts;
+package vgomes.marvelheroes.comms.consts;
 
 /**
  * Created by victorgomes on 26/06/17.

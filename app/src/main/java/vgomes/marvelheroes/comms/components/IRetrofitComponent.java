@@ -1,4 +1,4 @@
-package vgomes.marvel_heroes_client.comms.components;
+package vgomes.marvelheroes.comms.components;
 
 import retrofit2.Retrofit;
 

@@ -1,4 +1,4 @@
-package vgomes.marvel_heroes_client.activities;
+package vgomes.marvelheroes.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,11 +12,11 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import vgomes.marvel_heroes_client.MHApplication;
-import vgomes.marvel_heroes_client.R;
-import vgomes.marvel_heroes_client.comms.apis.MarvelApi;
-import vgomes.marvel_heroes_client.comms.models.BaseResponse;
-import vgomes.marvel_heroes_client.comms.models.CharacterItemModel;
+import vgomes.marvelheroes.MHApplication;
+import vgomes.marvelheroes.R;
+import vgomes.marvelheroes.comms.apis.MarvelApi;
+import vgomes.marvelheroes.comms.models.BaseResponse;
+import vgomes.marvelheroes.comms.models.CharacterItemModel;
 
 public class LandingPageActivity extends AppCompatActivity {
 
