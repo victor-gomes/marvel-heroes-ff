@@ -12,6 +12,4 @@ public class BaseSummaryModel {
     String resourceURI;
     @Expose
     String name;
-    //@Expose
-    //String type;
 }

@@ -1,33 +1,38 @@
-package vgomes.marvelheroes.comms.models;
+package vgomes.marvelheroes.datastorage.realmmodels;
 
 import com.google.gson.annotations.Expose;
 
 import java.util.Date;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import vgomes.marvelheroes.comms.models.BaseListModel;
+
 /**
- * Created by victorgomes on 27/06/17.
+ * Created by victorgomes on 28/06/17.
  */
 
-public class CharacterItemModel{
+public class RealmCharacter extends RealmObject {
 
-    @Expose
+    @PrimaryKey
     Integer id;
-    @Expose
+
     String name;
-    @Expose
+
     String description;
-    @Expose
+
     Date modified;
-    @Expose
+
     String resourceURI;
-    @Expose
-    BaseListModel comics;
-    @Expose
-    BaseListModel events;
-    @Expose
-    BaseListModel stories;
-    @Expose
-    BaseListModel series;
+
+    RealmList<RealmComicSummary> comics;
+
+    RealmList<RealmEventsSummary> events;
+
+    RealmList<RealmStorySummary> stories;
+
+    RealmList<RealmSeriesSummary> series;
 
     public Integer getId() {
         return id;
@@ -69,36 +74,35 @@ public class CharacterItemModel{
         this.resourceURI = resourceURI;
     }
 
-    public BaseListModel getComics() {
+    public RealmList<RealmComicSummary> getComics() {
         return comics;
     }
 
-    public void setComics(BaseListModel comics) {
+    public void setComics(RealmList<RealmComicSummary> comics) {
         this.comics = comics;
     }
 
-    public BaseListModel getEvents() {
+    public RealmList<RealmEventsSummary> getEvents() {
         return events;
     }
 
-    public void setEvents(BaseListModel events) {
+    public void setEvents(RealmList<RealmEventsSummary> events) {
         this.events = events;
     }
 
-    public BaseListModel getStories() {
+    public RealmList<RealmStorySummary> getStories() {
         return stories;
     }
 
-    public void setStories(BaseListModel stories) {
+    public void setStories(RealmList<RealmStorySummary> stories) {
         this.stories = stories;
     }
 
-    public BaseListModel getSeries() {
+    public RealmList<RealmSeriesSummary> getSeries() {
         return series;
     }
 
-    public void setSeries(BaseListModel series) {
+    public void setSeries(RealmList<RealmSeriesSummary> series) {
         this.series = series;
     }
 }
-

@@ -15,6 +15,6 @@ public class BaseListModel {
     @Expose
     String collectionURI;
     @Expose
-    BaseSummaryModel [] items;
+    BaseSummaryModel[] items;
 
 }
