@@ -1,5 +1,7 @@
 package vgomes.marvelheroes.datastorage.helper;
 
+import android.util.Log;
+
 import io.realm.DynamicRealm;
 import io.realm.RealmMigration;
 import io.realm.RealmSchema;
@@ -18,7 +20,6 @@ public class Migration implements RealmMigration {
 
         RealmSchema schema = realm.getSchema();
         version = DataStorageConstants.DATABASE_VERSION;
-
 
     }
 }

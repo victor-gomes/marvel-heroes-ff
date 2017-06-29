@@ -1,13 +1,10 @@
 package vgomes.marvelheroes.datastorage.realmmodels;
 
-import com.google.gson.annotations.Expose;
-
 import java.util.Date;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import vgomes.marvelheroes.comms.models.BaseListModel;
 
 /**
  * Created by victorgomes on 28/06/17.
@@ -26,13 +23,13 @@ public class RealmCharacter extends RealmObject {
 
     String resourceURI;
 
-    RealmList<RealmComicSummary> comics;
+    RealmList<RealmSummary> comics;
 
-    RealmList<RealmEventsSummary> events;
+    RealmList<RealmSummary> events;
 
-    RealmList<RealmStorySummary> stories;
+    RealmList<RealmSummary> stories;
 
-    RealmList<RealmSeriesSummary> series;
+    RealmList<RealmSummary> series;
 
     public Integer getId() {
         return id;
@@ -74,35 +71,35 @@ public class RealmCharacter extends RealmObject {
         this.resourceURI = resourceURI;
     }
 
-    public RealmList<RealmComicSummary> getComics() {
+    public RealmList<RealmSummary> getComics() {
         return comics;
     }
 
-    public void setComics(RealmList<RealmComicSummary> comics) {
+    public void setComics(RealmList<RealmSummary> comics) {
         this.comics = comics;
     }
 
-    public RealmList<RealmEventsSummary> getEvents() {
+    public RealmList<RealmSummary> getEvents() {
         return events;
     }
 
-    public void setEvents(RealmList<RealmEventsSummary> events) {
+    public void setEvents(RealmList<RealmSummary> events) {
         this.events = events;
     }
 
-    public RealmList<RealmStorySummary> getStories() {
+    public RealmList<RealmSummary> getStories() {
         return stories;
     }
 
-    public void setStories(RealmList<RealmStorySummary> stories) {
+    public void setStories(RealmList<RealmSummary> stories) {
         this.stories = stories;
     }
 
-    public RealmList<RealmSeriesSummary> getSeries() {
+    public RealmList<RealmSummary> getSeries() {
         return series;
     }
 
-    public void setSeries(RealmList<RealmSeriesSummary> series) {
+    public void setSeries(RealmList<RealmSummary> series) {
         this.series = series;
     }
 }

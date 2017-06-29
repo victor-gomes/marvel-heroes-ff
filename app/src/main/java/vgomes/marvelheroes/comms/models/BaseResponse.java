@@ -70,4 +70,12 @@ public class BaseResponse<T> {
     public void setEtag(String etag) {
         this.etag = etag;
     }
+
+    public BaseDataContainer<T> getData() {
+        return data;
+    }
+
+    public void setData(BaseDataContainer<T> data) {
+        this.data = data;
+    }
 }

@@ -1,14 +1,12 @@
 package vgomes.marvelheroes.datastorage.realmmodels;
 
-import java.util.Date;
-
 import io.realm.RealmObject;
 
 /**
  * Created by victorgomes on 28/06/17.
  */
 
-public class RealmComicSummary extends RealmObject {
+public class RealmSummary extends RealmObject {
 
     String resourceURI;
     String name;

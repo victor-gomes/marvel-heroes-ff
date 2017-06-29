@@ -1,39 +1,78 @@
 package vgomes.marvelheroes.datastorage.components;
 
+import android.util.Log;
+
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
+import io.realm.RealmList;
 import io.realm.RealmResults;
+import vgomes.marvelheroes.MHApplication;
+import vgomes.marvelheroes.comms.models.BaseListModel;
+import vgomes.marvelheroes.comms.models.BaseSummaryModel;
 import vgomes.marvelheroes.comms.models.CharacterItemModel;
 import vgomes.marvelheroes.datastorage.realmmodels.RealmCharacter;
+import vgomes.marvelheroes.datastorage.realmmodels.RealmSummary;
 
 /**
  * Created by victorgomes on 28/06/17.
  */
 
-public class RealmComponent<T> implements IRealmComponent {
+public class RealmComponent implements IRealmComponent {
 
-    public static RealmAsyncTask addOrUpdateCharacter(Realm realm, final CharacterItemModel[] list) {
+    @Override
+    public RealmAsyncTask addOrUpdateCharacter(Realm realm, final CharacterItemModel[] list) {
 
         return realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 if (list != null && list.length > 0) {
+                    Log.d("DEBUG", "Total elements = " + list.length);
                     for (CharacterItemModel character : list) {
-
+                        createRealmCharacter(realm, character);
                     }
+                    Log.d("DEBUG", "added: ");
                 }
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-
+                Log.d("DEBUG", "onSuccess");
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-
+                Log.e("DEBUG", "onError", error);
             }
         });
+    }
+
+    private CharacterItemModel getCharacterFromRealm(Realm realm, RealmCharacter realmCharacter) {
+        CharacterItemModel character = new CharacterItemModel();
+
+        character.setName(realmCharacter.getName());
+        character.setDescription(realmCharacter.getDescription());
+        character.setModified(realmCharacter.getModified());
+        character.setResourceURI(realmCharacter.getResourceURI());
+
+        character.setComics(getSummaryFromRealm(realmCharacter.getComics()));
+        character.setEvents(getSummaryFromRealm(realmCharacter.getEvents()));
+        character.setSeries(getSummaryFromRealm(realmCharacter.getSeries()));
+        character.setStories(getSummaryFromRealm(realmCharacter.getStories()));
+
+        return character;
+    }
+
+    private BaseListModel getSummaryFromRealm(RealmList<RealmSummary> realmList) {
+        BaseListModel result = new BaseListModel();
+        BaseSummaryModel[] resultsList = new BaseSummaryModel[realmList.size()];
+        for (int i = 0; i < realmList.size(); i++) {
+            BaseSummaryModel bsm = new BaseSummaryModel();
+            bsm.setName(realmList.get(i).getName());
+            bsm.setResourceURI(realmList.get(i).getResourceURI());
+            resultsList[i] = bsm;
+        }
+        result.setItems(resultsList);
+        return result;
     }
 
     private void createRealmCharacter(Realm realm, CharacterItemModel character) {
@@ -46,24 +85,22 @@ public class RealmComponent<T> implements IRealmComponent {
         realmCharacter.setDescription(character.getDescription());
         realmCharacter.setModified(character.getModified());
         realmCharacter.setResourceURI(character.getResourceURI());
-        createRealCommicSummary(realm, realmCharacter, character);
-
-
+        realmCharacter.setComics(getRealSummary(realm, character.getComics()));
+        realmCharacter.setEvents(getRealSummary(realm, character.getEvents()));
+        realmCharacter.setSeries(getRealSummary(realm, character.getSeries()));
+        realmCharacter.setStories(getRealSummary(realm, character.getStories()));
     }
 
-    private void createRealCommicSummary(Realm realm, RealmCharacter realmCharacter, CharacterItemModel characterItemModel) {
-
-    }
-
-    private void createRealSeriesSummary(Realm realm, RealmCharacter realmCharacter, CharacterItemModel characterItemModel) {
-
-    }
-
-    private void createRealEventsSummary(Realm realm, RealmCharacter realmCharacter, CharacterItemModel characterItemModel) {
-
-    }
-
-    private void createRealStoriesSummary(Realm realm, RealmCharacter realmCharacter, CharacterItemModel characterItemModel) {
-
+    private RealmList<RealmSummary> getRealSummary(Realm realm, BaseListModel summary) {
+        RealmList<RealmSummary> realmList = new RealmList<>();
+        if (summary != null && summary.getItems() != null && summary.getItems().length > 0) {
+            for (BaseSummaryModel bsm : summary.getItems()) {
+                RealmSummary realmComicSummary = realm.createObject(RealmSummary.class);
+                realmComicSummary.setName(bsm.getName());
+                realmComicSummary.setResourceURI(bsm.getResourceURI());
+                realmList.add(realmComicSummary);
+            }
+        }
+        return realmList;
     }
 }
