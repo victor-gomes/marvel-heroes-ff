@@ -5,4 +5,12 @@
     <dimen name="character_view_holder_name_container">20dp</dimen>
     <dimen name="character_view_holder_name_text_size">13sp</dimen>
     <dimen name="character_view_holder_name_container_height">70dp</dimen>
+
+    <dimen name="tool_bar_height">40dp</dimen>
+    <dimen name="tool_bar_padding_sides">5dp</dimen>
+    <dimen name="tool_bar_padding_top_bottom">5dp</dimen>
+    <dimen name="tool_bar_title_text_size">17sp</dimen>
+    <dimen name="tool_bar_margin_to_icon">10dp</dimen>
+    <dimen name="tool_bar_search_text_size">16sp</dimen>
+    <dimen name="tool_bar_clear_icon_margin">30dp</dimen>
 </resources>

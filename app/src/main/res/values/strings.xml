@@ -2,4 +2,5 @@
     <string name="app_name">Marvel Heroes</string>
     <string name="server_error_generic_message">Something went wrong.</string>
     <string name="snack_bar_retry_label">Try again</string>
+    <string name="tool_bar_search_hint_label">Insert hero name</string>
 </resources>

@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -25,7 +27,9 @@ import vgomes.marvelheroes.comms.models.BaseResponseWrapper;
 import vgomes.marvelheroes.comms.models.CharacterItemModel;
 import vgomes.marvelheroes.datastorage.realmmodels.RealmCharacter;
 import vgomes.marvelheroes.interfaces.ICharacterViewHolderClick;
+import vgomes.marvelheroes.interfaces.ISearchListener;
 import vgomes.marvelheroes.ui.adapters.CharacterAdapter;
+import vgomes.marvelheroes.ui.customviews.CustomToolBar;
 
 public class LandingPageActivity extends AppCompatActivity {
 
@@ -33,6 +37,8 @@ public class LandingPageActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_rl)
     RecyclerView recycler;
+    @BindView(R.id.tool_bar_ctb)
+    CustomToolBar toolBarCtb;
 
     private MarvelApi service;
     private RealmResults<RealmCharacter> results;
@@ -42,6 +48,7 @@ public class LandingPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
+        setSupportActionBar(toolBarCtb);
         ButterKnife.bind(this);
         adapter = new CharacterAdapter(new ICharacterViewHolderClick() {
             @Override
@@ -65,7 +72,14 @@ public class LandingPageActivity extends AppCompatActivity {
                 adapter.addData(elements);
             }
         });
-        fetchData("spider");
+        toolBarCtb.setSearchChangedListener(new ISearchListener() {
+            @Override
+            public void onSearchChanged(String s) {
+                Log.d(TAG, "onSearchChanged = " + s);
+                fetchData(s);
+            }
+        });
+
     }
 
     @Override

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -12,6 +12,14 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/character_view_holder_name_text_size</item>
         <item name="android:layout_marginEnd">@dimen/character_view_holder_name_side_padding</item>
+    </style>
+    <style name="ToolBarEditTextStyle">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:maxLength">40</item>
+        <item name="android:maxLines">1</item>
     </style>
 
 </resources>
