@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+
+    <ImageView
+        android:id="@+id/background_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/character_view_holder_name_container_height"
+        android:layout_alignParentBottom="true"
+        android:alpha="0.7"
+        android:background="@android:color/background_dark"
+        android:paddingBottom="@dimen/character_view_holder_container_top_bottom_padding"
+        android:paddingEnd="@dimen/character_view_holder_name_container"
+        android:paddingStart="@dimen/character_view_holder_name_container"
+        android:paddingTop="@dimen/character_view_holder_container_top_bottom_padding">
+
+        <TextView
+            android:id="@+id/character_name_tv"
+            style="@style/CharacterViewHolderNameStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/favorite_iv"
+            android:gravity="center|start"
+            android:maxLines="2"
+            tools:text="Spider man and hulk are fighting together against iron man and deadpool." />
+
+        <ImageView
+            android:id="@+id/favorite_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_favorite_border_white" />
+    </RelativeLayout>
+
+</RelativeLayout>

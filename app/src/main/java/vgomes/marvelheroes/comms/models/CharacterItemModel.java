@@ -21,13 +21,13 @@ public class CharacterItemModel{
     @Expose
     String resourceURI;
     @Expose
-    BaseListModel comics;
+    CharacterParticipationsModel comics;
     @Expose
-    BaseListModel events;
+    CharacterParticipationsModel events;
     @Expose
-    BaseListModel stories;
+    CharacterParticipationsModel stories;
     @Expose
-    BaseListModel series;
+    CharacterParticipationsModel series;
 
     public Integer getId() {
         return id;
@@ -69,35 +69,35 @@ public class CharacterItemModel{
         this.resourceURI = resourceURI;
     }
 
-    public BaseListModel getComics() {
+    public CharacterParticipationsModel getComics() {
         return comics;
     }
 
-    public void setComics(BaseListModel comics) {
+    public void setComics(CharacterParticipationsModel comics) {
         this.comics = comics;
     }
 
-    public BaseListModel getEvents() {
+    public CharacterParticipationsModel getEvents() {
         return events;
     }
 
-    public void setEvents(BaseListModel events) {
+    public void setEvents(CharacterParticipationsModel events) {
         this.events = events;
     }
 
-    public BaseListModel getStories() {
+    public CharacterParticipationsModel getStories() {
         return stories;
     }
 
-    public void setStories(BaseListModel stories) {
+    public void setStories(CharacterParticipationsModel stories) {
         this.stories = stories;
     }
 
-    public BaseListModel getSeries() {
+    public CharacterParticipationsModel getSeries() {
         return series;
     }
 
-    public void setSeries(BaseListModel series) {
+    public void setSeries(CharacterParticipationsModel series) {
         this.series = series;
     }
 }

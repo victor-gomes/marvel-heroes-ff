@@ -2,23 +2,15 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_root_cl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="vgomes.marvelheroes.activities.LandingPageActivity">
+    tools:context=".ui.activities.LandingPageActivity">
 
-    <TextView
-        android:id="@+id/button"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="Call"
-        android:textColor="@android:color/white"
-        android:gravity="center"
-        android:enabled="true"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@android:color/holo_blue_light"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </android.support.constraint.ConstraintLayout>

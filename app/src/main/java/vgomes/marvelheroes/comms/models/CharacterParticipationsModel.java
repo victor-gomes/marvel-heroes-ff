@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
  * Created by victorgomes on 27/06/17.
  */
 
-public class BaseListModel {
+public class CharacterParticipationsModel {
 
     @Expose
     Integer available;
@@ -15,7 +15,7 @@ public class BaseListModel {
     @Expose
     String collectionURI;
     @Expose
-    BaseSummaryModel[] items;
+    ParticipationsSummaryModel[] items;
 
     public Integer getAvailable() {
         return available;
@@ -41,11 +41,11 @@ public class BaseListModel {
         this.collectionURI = collectionURI;
     }
 
-    public BaseSummaryModel[] getItems() {
+    public ParticipationsSummaryModel[] getItems() {
         return items;
     }
 
-    public void setItems(BaseSummaryModel[] items) {
+    public void setItems(ParticipationsSummaryModel[] items) {
         this.items = items;
     }
 }

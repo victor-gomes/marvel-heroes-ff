@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
  * Created by victorgomes on 26/06/17.
  */
 
-public class BaseResponse<T> {
+public class BaseResponseWrapper<T> {
 
     @Expose
     Integer code;

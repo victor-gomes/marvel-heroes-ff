@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Marvel Heroes</string>
+    <string name="server_error_generic_message">Something went wrong.</string>
+    <string name="snack_bar_retry_label">Try again</string>
 </resources>

@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CharacterViewHolderNameStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/character_view_holder_name_text_size</item>
+        <item name="android:layout_marginEnd">@dimen/character_view_holder_name_side_padding</item>
+    </style>
+
 </resources>

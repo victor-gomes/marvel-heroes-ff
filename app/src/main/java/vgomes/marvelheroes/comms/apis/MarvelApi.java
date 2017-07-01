@@ -4,7 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import vgomes.marvelheroes.comms.consts.ApiConstants;
-import vgomes.marvelheroes.comms.models.BaseResponse;
+import vgomes.marvelheroes.comms.models.BaseResponseWrapper;
 import vgomes.marvelheroes.comms.models.CharacterItemModel;
 
 /**
@@ -14,6 +14,6 @@ import vgomes.marvelheroes.comms.models.CharacterItemModel;
 public interface MarvelApi {
 
     @GET(ApiConstants.CHARACTERS_ENDPOINT)
-    Call<BaseResponse<CharacterItemModel>> getCharactersList(@Query("nameStartsWith") String name);
+    Call<BaseResponseWrapper<CharacterItemModel>> getCharactersList(@Query("nameStartsWith") String name);
 
 }

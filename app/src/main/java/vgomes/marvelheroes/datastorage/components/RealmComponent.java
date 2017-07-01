@@ -2,16 +2,21 @@ package vgomes.marvelheroes.datastorage.components;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
+import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import vgomes.marvelheroes.MHApplication;
-import vgomes.marvelheroes.comms.models.BaseListModel;
-import vgomes.marvelheroes.comms.models.BaseSummaryModel;
+import vgomes.marvelheroes.comms.models.CharacterParticipationsModel;
+import vgomes.marvelheroes.comms.models.ParticipationsSummaryModel;
 import vgomes.marvelheroes.comms.models.CharacterItemModel;
 import vgomes.marvelheroes.datastorage.realmmodels.RealmCharacter;
 import vgomes.marvelheroes.datastorage.realmmodels.RealmSummary;
+import vgomes.marvelheroes.interfaces.IDataListener;
 
 /**
  * Created by victorgomes on 28/06/17.
@@ -62,11 +67,11 @@ public class RealmComponent implements IRealmComponent {
         return character;
     }
 
-    private BaseListModel getSummaryFromRealm(RealmList<RealmSummary> realmList) {
-        BaseListModel result = new BaseListModel();
-        BaseSummaryModel[] resultsList = new BaseSummaryModel[realmList.size()];
+    private CharacterParticipationsModel getSummaryFromRealm(RealmList<RealmSummary> realmList) {
+        CharacterParticipationsModel result = new CharacterParticipationsModel();
+        ParticipationsSummaryModel[] resultsList = new ParticipationsSummaryModel[realmList.size()];
         for (int i = 0; i < realmList.size(); i++) {
-            BaseSummaryModel bsm = new BaseSummaryModel();
+            ParticipationsSummaryModel bsm = new ParticipationsSummaryModel();
             bsm.setName(realmList.get(i).getName());
             bsm.setResourceURI(realmList.get(i).getResourceURI());
             resultsList[i] = bsm;
@@ -91,10 +96,10 @@ public class RealmComponent implements IRealmComponent {
         realmCharacter.setStories(getRealSummary(realm, character.getStories()));
     }
 
-    private RealmList<RealmSummary> getRealSummary(Realm realm, BaseListModel summary) {
+    private RealmList<RealmSummary> getRealSummary(Realm realm, CharacterParticipationsModel summary) {
         RealmList<RealmSummary> realmList = new RealmList<>();
         if (summary != null && summary.getItems() != null && summary.getItems().length > 0) {
-            for (BaseSummaryModel bsm : summary.getItems()) {
+            for (ParticipationsSummaryModel bsm : summary.getItems()) {
                 RealmSummary realmComicSummary = realm.createObject(RealmSummary.class);
                 realmComicSummary.setName(bsm.getName());
                 realmComicSummary.setResourceURI(bsm.getResourceURI());

@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
  * Created by victorgomes on 27/06/17.
  */
 
-public class BaseSummaryModel {
+public class ParticipationsSummaryModel {
 
     @Expose
     String resourceURI;
