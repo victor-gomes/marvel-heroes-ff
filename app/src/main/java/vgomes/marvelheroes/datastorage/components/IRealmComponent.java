@@ -1,5 +1,7 @@
 package vgomes.marvelheroes.datastorage.components;
 
+import java.util.Date;
+
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
 import io.realm.RealmResults;
@@ -13,5 +15,5 @@ import vgomes.marvelheroes.interfaces.IDataListener;
 
 public interface IRealmComponent {
 
-    RealmAsyncTask addOrUpdateCharacter(Realm realm, final CharacterItemModel[] list);
+    RealmAsyncTask addOrUpdateCharacter(Realm realm, final CharacterItemModel[] list, final Date addedDate);
 }

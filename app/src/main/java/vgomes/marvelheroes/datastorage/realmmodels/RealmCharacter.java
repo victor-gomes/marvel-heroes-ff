@@ -33,6 +33,10 @@ public class RealmCharacter extends RealmObject {
 
     RealmCharacterThumbnail thumbnail;
 
+    boolean isFavorite = false;
+
+    Date addedDate;
+
     public Integer getId() {
         return id;
     }
@@ -111,5 +115,21 @@ public class RealmCharacter extends RealmObject {
 
     public void setThumbnail(RealmCharacterThumbnail thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    public Date getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(Date addedDate) {
+        this.addedDate = addedDate;
     }
 }

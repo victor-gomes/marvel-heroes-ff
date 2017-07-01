@@ -35,6 +35,7 @@ public class CustomToolBar extends Toolbar {
     private ISearchListener listener;
     private int length;
     private String lastFilteredText = "";
+    private boolean isSearching = false;
 
     public CustomToolBar(Context context) {
         this(context, null);
@@ -58,11 +59,9 @@ public class CustomToolBar extends Toolbar {
                 if (titleTv.getVisibility() == VISIBLE) {
                     titleTv.setVisibility(GONE);
                     searchInputEt.setVisibility(VISIBLE);
+                    isSearching = true;
                 } else {
-                    searchInputEt.setText("");
-                    clearIv.setVisibility(GONE);
-                    titleTv.setVisibility(VISIBLE);
-                    searchInputEt.setVisibility(GONE);
+                    reset();
                 }
             }
         });
@@ -110,5 +109,17 @@ public class CustomToolBar extends Toolbar {
 
     public void setSearchChangedListener(ISearchListener listener) {
         this.listener = listener;
+    }
+
+    public boolean isSearching() {
+        return isSearching;
+    }
+
+    public void reset() {
+        searchInputEt.setText("");
+        clearIv.setVisibility(GONE);
+        titleTv.setVisibility(VISIBLE);
+        searchInputEt.setVisibility(GONE);
+        isSearching = false;
     }
 }

@@ -7,5 +7,5 @@ package vgomes.marvelheroes.interfaces;
 public interface ICharacterViewHolderClick<T> {
 
     void onItemClick(T item);
-    void onFavoriteClick(T item);
+    void onFavoriteClick(T item, boolean isFavorite);
 }

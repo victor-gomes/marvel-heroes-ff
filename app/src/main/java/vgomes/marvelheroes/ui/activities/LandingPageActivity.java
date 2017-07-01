@@ -2,7 +2,6 @@ package vgomes.marvelheroes.ui.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +9,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +31,7 @@ import vgomes.marvelheroes.interfaces.ISearchListener;
 import vgomes.marvelheroes.ui.adapters.CharacterAdapter;
 import vgomes.marvelheroes.ui.customviews.CustomToolBar;
 
-public class LandingPageActivity extends AppCompatActivity {
+public class LandingPageActivity extends BaseActivity {
 
     private static final String TAG = LandingPageActivity.class.getSimpleName();
 
@@ -49,36 +50,36 @@ public class LandingPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing_page);
         setSupportActionBar(toolBarCtb);
         ButterKnife.bind(this);
-        adapter = new CharacterAdapter(new ICharacterViewHolderClick() {
+        adapter = new CharacterAdapter(new ICharacterViewHolderClick<RealmCharacter>() {
             @Override
-            public void onItemClick(Object item) {
+            public void onItemClick(RealmCharacter item) {
                 Toast.makeText(getApplicationContext(), "onItemClick", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFavoriteClick(Object item) {
-                Toast.makeText(getApplicationContext(), "onFavoriteClick", Toast.LENGTH_SHORT).show();
+            public void onFavoriteClick(RealmCharacter item, boolean isFavorite) {
+                Log.d(TAG, "onFavoriteClick = " + item.getName() + " -> isFavorite = " + !isFavorite);
+                MHApplication.getRealm().beginTransaction();
+                item.setFavorite(!isFavorite);
+                MHApplication.getRealm().commitTransaction();
+
             }
         });
         recycler.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
         service = MHApplication.getCommsComponent().getAdapter().create(MarvelApi.class);
-        results = MHApplication.getRealm().where(RealmCharacter.class).findAllAsync();
-        results.addChangeListener(new RealmChangeListener<RealmResults<RealmCharacter>>() {
-            @Override
-            public void onChange(RealmResults<RealmCharacter> elements) {
-                Log.d(TAG, "onChange size = " + elements.size());
-                adapter.addData(elements);
-            }
-        });
+        setQueryToDB(null);
+
         toolBarCtb.setSearchChangedListener(new ISearchListener() {
             @Override
             public void onSearchChanged(String s) {
                 Log.d(TAG, "onSearchChanged = " + s);
-                if (!TextUtils.isEmpty(s)) {
-                    fetchData(s);
-                } else {
-                    fetchData(null);
+                if (isResumed) {
+                    if (!TextUtils.isEmpty(s)) {
+                        fetchData(s);
+                    } else {
+                        fetchData(null);
+                    }
                 }
             }
         });
@@ -106,7 +107,13 @@ public class LandingPageActivity extends AppCompatActivity {
                     BaseDataContainer<CharacterItemModel> container = result.getData();
                     if (container != null) {
                         CharacterItemModel[] characterList = container.getResults();
-                        MHApplication.getDataComponent().addOrUpdateCharacter(MHApplication.getRealm(), characterList);
+                        Date date = java.util.Calendar.getInstance().getTime();
+                        if (!TextUtils.isEmpty(characterName)) {
+                            setQueryToDB(date);
+                        }else {
+                            setQueryToDB(null);
+                        }
+                        MHApplication.getDataComponent().addOrUpdateCharacter(MHApplication.getRealm(), characterList, date);
                     }
                 }
             }
@@ -116,16 +123,48 @@ public class LandingPageActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure");
                 //we can have a fine grained error validation here.
                 //In this example we will only display a general error message
-                Snackbar mySnackbar = Snackbar.make(findViewById(R.id.activity_root_cl),
-                        R.string.server_error_generic_message, Snackbar.LENGTH_SHORT);
-                mySnackbar.setAction(R.string.snack_bar_retry_label, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        fetchData(characterName);
-                    }
-                });
-                mySnackbar.show();
+                if (isResumed) {
+                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.activity_root_cl),
+                            R.string.server_error_generic_message, Snackbar.LENGTH_SHORT);
+                    mySnackbar.setAction(R.string.snack_bar_retry_label, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            fetchData(characterName);
+                        }
+                    });
+                    mySnackbar.show();
+                }
             }
         });
+    }
+
+    private void setQueryToDB(Date date) {
+        if (results != null) {
+            results.removeAllChangeListeners();
+            results = null;
+        }
+        if (date == null) {
+            results = MHApplication.getRealm().where(RealmCharacter.class).findAllAsync();
+        } else {
+            results = MHApplication.getRealm().where(RealmCharacter.class).equalTo("addedDate", date).findAllAsync();
+        }
+        results.addChangeListener(new RealmChangeListener<RealmResults<RealmCharacter>>() {
+            @Override
+            public void onChange(RealmResults<RealmCharacter> elements) {
+                Log.d(TAG, "onChange size = " + elements.size());
+                if (isResumed) {
+                    adapter.addData(elements);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (toolBarCtb.isSearching()) {
+            toolBarCtb.reset();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

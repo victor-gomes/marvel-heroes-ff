@@ -2,6 +2,8 @@ package vgomes.marvelheroes.datastorage.components;
 
 import android.util.Log;
 
+import java.util.Date;
+
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
 import io.realm.RealmList;
@@ -21,16 +23,15 @@ import vgomes.marvelheroes.datastorage.realmmodels.RealmSummary;
 public class RealmComponent implements IRealmComponent {
 
     @Override
-    public RealmAsyncTask addOrUpdateCharacter(Realm realm, final CharacterItemModel[] list) {
+    public RealmAsyncTask addOrUpdateCharacter(Realm realm, final CharacterItemModel[] list, final Date addedDate) {
 
         return realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 if (list != null && list.length > 0) {
                     Log.d("DEBUG", "Total elements = " + list.length);
-                    deleteRealmCharacters(realm);
                     for (CharacterItemModel character : list) {
-                        createRealmCharacter(realm, character);
+                        createRealmCharacter(realm, character, addedDate);
                     }
                     Log.d("DEBUG", "added: ");
                 }
@@ -101,7 +102,7 @@ public class RealmComponent implements IRealmComponent {
         return result;
     }
 
-    private void createRealmCharacter(Realm realm, CharacterItemModel character) {
+    private void createRealmCharacter(Realm realm, CharacterItemModel character, final Date addedDate) {
         RealmCharacter realmCharacter = realm.where(RealmCharacter.class).equalTo("id", character.getId()).findFirst();
         if (realmCharacter == null) {
             realmCharacter = realm.createObject(RealmCharacter.class, character.getId());
@@ -116,6 +117,7 @@ public class RealmComponent implements IRealmComponent {
         realmCharacter.setSeries(getRealSummary(realm, character.getSeries()));
         realmCharacter.setStories(getRealSummary(realm, character.getStories()));
         realmCharacter.setThumbnail(getRealmCharacterThumbnail(realm, character.getThumbnail()));
+        realmCharacter.setAddedDate(addedDate);
     }
 
     private RealmList<RealmSummary> getRealSummary(Realm realm, CharacterParticipationsModel summary) {
