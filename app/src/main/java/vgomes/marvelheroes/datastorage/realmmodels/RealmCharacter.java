@@ -31,6 +31,8 @@ public class RealmCharacter extends RealmObject {
 
     RealmList<RealmSummary> series;
 
+    RealmCharacterThumbnail thumbnail;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class RealmCharacter extends RealmObject {
 
     public void setSeries(RealmList<RealmSummary> series) {
         this.series = series;
+    }
+
+    public RealmCharacterThumbnail getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(RealmCharacterThumbnail thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

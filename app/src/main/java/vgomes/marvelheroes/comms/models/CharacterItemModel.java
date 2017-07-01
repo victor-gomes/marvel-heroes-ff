@@ -28,6 +28,8 @@ public class CharacterItemModel{
     CharacterParticipationsModel stories;
     @Expose
     CharacterParticipationsModel series;
+    @Expose
+    CharacterThumbnailModel thumbnail;
 
     public Integer getId() {
         return id;
@@ -99,6 +101,14 @@ public class CharacterItemModel{
 
     public void setSeries(CharacterParticipationsModel series) {
         this.series = series;
+    }
+
+    public CharacterThumbnailModel getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(CharacterThumbnailModel image) {
+        this.thumbnail = image;
     }
 }
 

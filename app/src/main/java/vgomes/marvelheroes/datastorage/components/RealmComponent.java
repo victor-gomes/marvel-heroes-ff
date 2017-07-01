@@ -12,9 +12,11 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import vgomes.marvelheroes.MHApplication;
 import vgomes.marvelheroes.comms.models.CharacterParticipationsModel;
+import vgomes.marvelheroes.comms.models.CharacterThumbnailModel;
 import vgomes.marvelheroes.comms.models.ParticipationsSummaryModel;
 import vgomes.marvelheroes.comms.models.CharacterItemModel;
 import vgomes.marvelheroes.datastorage.realmmodels.RealmCharacter;
+import vgomes.marvelheroes.datastorage.realmmodels.RealmCharacterThumbnail;
 import vgomes.marvelheroes.datastorage.realmmodels.RealmSummary;
 import vgomes.marvelheroes.interfaces.IDataListener;
 
@@ -51,7 +53,7 @@ public class RealmComponent implements IRealmComponent {
         });
     }
 
-    private CharacterItemModel getCharacterFromRealm(Realm realm, RealmCharacter realmCharacter) {
+    private CharacterItemModel getCharacterFromRealm(RealmCharacter realmCharacter) {
         CharacterItemModel character = new CharacterItemModel();
 
         character.setName(realmCharacter.getName());
@@ -94,6 +96,7 @@ public class RealmComponent implements IRealmComponent {
         realmCharacter.setEvents(getRealSummary(realm, character.getEvents()));
         realmCharacter.setSeries(getRealSummary(realm, character.getSeries()));
         realmCharacter.setStories(getRealSummary(realm, character.getStories()));
+        realmCharacter.setThumbnail(getRealmCharacterThumbnail(realm, character.getThumbnail()));
     }
 
     private RealmList<RealmSummary> getRealSummary(Realm realm, CharacterParticipationsModel summary) {
@@ -107,5 +110,12 @@ public class RealmComponent implements IRealmComponent {
             }
         }
         return realmList;
+    }
+
+    private RealmCharacterThumbnail getRealmCharacterThumbnail(Realm realm, CharacterThumbnailModel thumbnailModel) {
+        RealmCharacterThumbnail realmCharacterThumbnail = realm.createObject(RealmCharacterThumbnail.class);
+        realmCharacterThumbnail.setExtension(thumbnailModel.getExtension());
+        realmCharacterThumbnail.setPath(thumbnailModel.getPath());
+        return realmCharacterThumbnail;
     }
 }

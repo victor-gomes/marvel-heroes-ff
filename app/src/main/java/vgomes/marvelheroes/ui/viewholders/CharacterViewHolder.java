@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import vgomes.marvelheroes.R;
@@ -35,6 +37,7 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder {
 
     public void setData(final RealmCharacter data, final ICharacterViewHolderClick<RealmCharacter> listener) {
         nameTv.setText(data.getName());
+        Glide.with(itemView.getContext()).load(String.format(Locale.getDefault(), "%s%s%s", data.getThumbnail().getPath(),".", data.getThumbnail().getExtension())).into(backgroundIv);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
