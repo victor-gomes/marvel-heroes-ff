@@ -6,10 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -76,10 +75,14 @@ public class LandingPageActivity extends AppCompatActivity {
             @Override
             public void onSearchChanged(String s) {
                 Log.d(TAG, "onSearchChanged = " + s);
-                fetchData(s);
+                if (!TextUtils.isEmpty(s)) {
+                    fetchData(s);
+                } else {
+                    fetchData(null);
+                }
             }
         });
-
+        fetchData(null);
     }
 
     @Override
@@ -90,7 +93,6 @@ public class LandingPageActivity extends AppCompatActivity {
         adapter = null;
     }
 
-
     private void fetchData(final String characterName) {
 
         service.getCharactersList(characterName).enqueue(new Callback<BaseResponseWrapper<CharacterItemModel>>() {
@@ -100,10 +102,13 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onResponse(Call<BaseResponseWrapper<CharacterItemModel>> call, Response<BaseResponseWrapper<CharacterItemModel>> response) {
                 Log.d(TAG, "onResponse");
                 BaseResponseWrapper<CharacterItemModel> result = response.body();
-                BaseDataContainer<CharacterItemModel> container = result.getData();
-                CharacterItemModel[] characterList = container.getResults();
-                MHApplication.getDataComponent().addOrUpdateCharacter(MHApplication.getRealm(), characterList);
-
+                if (result != null) {
+                    BaseDataContainer<CharacterItemModel> container = result.getData();
+                    if (container != null) {
+                        CharacterItemModel[] characterList = container.getResults();
+                        MHApplication.getDataComponent().addOrUpdateCharacter(MHApplication.getRealm(), characterList);
+                    }
+                }
             }
 
             @Override

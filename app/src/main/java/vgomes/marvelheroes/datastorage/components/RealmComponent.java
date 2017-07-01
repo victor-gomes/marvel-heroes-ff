@@ -2,23 +2,17 @@ package vgomes.marvelheroes.datastorage.components;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.realm.Realm;
 import io.realm.RealmAsyncTask;
-import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import io.realm.RealmResults;
-import vgomes.marvelheroes.MHApplication;
+import vgomes.marvelheroes.comms.models.CharacterItemModel;
 import vgomes.marvelheroes.comms.models.CharacterParticipationsModel;
 import vgomes.marvelheroes.comms.models.CharacterThumbnailModel;
 import vgomes.marvelheroes.comms.models.ParticipationsSummaryModel;
-import vgomes.marvelheroes.comms.models.CharacterItemModel;
 import vgomes.marvelheroes.datastorage.realmmodels.RealmCharacter;
 import vgomes.marvelheroes.datastorage.realmmodels.RealmCharacterThumbnail;
 import vgomes.marvelheroes.datastorage.realmmodels.RealmSummary;
-import vgomes.marvelheroes.interfaces.IDataListener;
 
 /**
  * Created by victorgomes on 28/06/17.
@@ -34,6 +28,7 @@ public class RealmComponent implements IRealmComponent {
             public void execute(Realm realm) {
                 if (list != null && list.length > 0) {
                     Log.d("DEBUG", "Total elements = " + list.length);
+                    deleteRealmCharacters(realm);
                     for (CharacterItemModel character : list) {
                         createRealmCharacter(realm, character);
                     }
@@ -51,6 +46,30 @@ public class RealmComponent implements IRealmComponent {
                 Log.e("DEBUG", "onError", error);
             }
         });
+    }
+
+    private void deleteRealmCharacters(Realm realm) {
+        RealmResults<RealmCharacter> realmCharacterList = realm.where(RealmCharacter.class).findAll();
+        if (realmCharacterList != null && !realmCharacterList.isEmpty()) {
+            for (RealmCharacter realmCharacter : realmCharacterList) {
+                if (realmCharacter.getComics() != null) {
+                    realmCharacter.getComics().deleteAllFromRealm();
+                }
+                if (realmCharacter.getSeries() != null) {
+                    realmCharacter.getSeries().deleteAllFromRealm();
+                }
+                if (realmCharacter.getEvents() != null) {
+                    realmCharacter.getEvents().deleteAllFromRealm();
+                }
+                if (realmCharacter.getStories() != null) {
+                    realmCharacter.getStories().deleteAllFromRealm();
+                }
+                if (realmCharacter.getThumbnail() != null) {
+                    realmCharacter.getThumbnail().deleteFromRealm();
+                }
+            }
+            realmCharacterList.deleteAllFromRealm();
+        }
     }
 
     private CharacterItemModel getCharacterFromRealm(RealmCharacter realmCharacter) {
