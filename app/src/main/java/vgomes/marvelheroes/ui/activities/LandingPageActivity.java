@@ -43,6 +43,10 @@ public class LandingPageActivity extends BaseActivity {
     private MarvelApi service;
     private RealmResults<RealmCharacter> results;
     private CharacterAdapter adapter;
+    private int limit = 20;
+    private int offset = 0;
+    private int total = 0;
+    private String characterName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +54,11 @@ public class LandingPageActivity extends BaseActivity {
         setContentView(R.layout.activity_landing_page);
         ButterKnife.bind(this);
         setSupportActionBar(toolBarCtb);
+        //Create recycler view adapter
         adapter = new CharacterAdapter(new ICharacterViewHolderClick<RealmCharacter>() {
             @Override
             public void onItemClick(RealmCharacter item) {
+                //Launch details activity
                 Intent i = new Intent(LandingPageActivity.this, CharacterDetailsActivity.class);
                 i.putExtra(CharacterDetailsActivity.EXTRA_CHARACTER_ID, item.getId());
                 startActivity(i);
@@ -61,16 +67,31 @@ public class LandingPageActivity extends BaseActivity {
             @Override
             public void onFavoriteClick(RealmCharacter item, boolean isFavorite) {
                 Log.d(TAG, "onFavoriteClick = " + item.getName() + " -> isFavorite = " + !isFavorite);
+                //Save new favorite status in DB
                 MHApplication.getRealm().beginTransaction();
                 item.setFavorite(!isFavorite);
                 MHApplication.getRealm().commitTransaction();
 
             }
         });
-        recycler.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
+        //Create and add layout manager for recyclerView
+        final GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
+        recycler.setLayoutManager(layoutManager);
+        //Add scroll listener to detect when list is in the end
+        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                onScrollCall(layoutManager);
+            }
+        });
         recycler.setAdapter(adapter);
-        service = MHApplication.getCommsComponent().getAdapter().create(MarvelApi.class);
+        //Check if there are records stored in DB and add change listener
         setQueryToDB(null);
+        //Get our retrofit API
+        service = MHApplication.getCommsComponent().getAdapter().create(MarvelApi.class);
+        //Fetch data from Marvel web API
+        fetchData();
 
         toolBarCtb.setSearchChangedListener(new ISearchListener() {
             @Override
@@ -78,14 +99,32 @@ public class LandingPageActivity extends BaseActivity {
                 Log.d(TAG, "onSearchChanged = " + s);
                 if (isResumed) {
                     if (!TextUtils.isEmpty(s)) {
-                        fetchData(s);
+                        characterName = s;
+                        fetchData();
                     } else {
-                        fetchData(null);
+                        characterName = null;
+                        fetchData();
                     }
                 }
             }
         });
-        fetchData(null);
+    }
+
+    /**
+     * Calculate if user is in last position of the list
+     *
+     * @param layoutManager reference to current LayoutManager added to our adapter
+     */
+    private void onScrollCall(LinearLayoutManager layoutManager) {
+        int totalItemCount = layoutManager.getItemCount();
+        int lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition();
+
+        if (lastVisiblePosition == totalItemCount - 1) {
+            Log.d(TAG, "onLoadMore limit = " + limit + " offset = " + offset);
+            if (adapter.getItemCount() < total) {
+                fetchData();
+            }
+        }
     }
 
     @Override
@@ -96,9 +135,12 @@ public class LandingPageActivity extends BaseActivity {
         adapter = null;
     }
 
-    private void fetchData(final String characterName) {
+    /**
+     * Fetch data from Marvel API.
+     */
+    private void fetchData() {
 
-        service.getCharactersList(characterName).enqueue(new Callback<BaseResponseWrapper<CharacterItemModel>>() {
+        service.getCharactersList(characterName, limit, offset).enqueue(new Callback<BaseResponseWrapper<CharacterItemModel>>() {
 
 
             @Override
@@ -108,6 +150,7 @@ public class LandingPageActivity extends BaseActivity {
                 if (result != null) {
                     BaseDataContainer<CharacterItemModel> container = result.getData();
                     if (container != null) {
+                        total = container.getTotal();
                         CharacterItemModel[] characterList = container.getResults();
                         Date date = java.util.Calendar.getInstance().getTime();
                         if (!TextUtils.isEmpty(characterName)) {
@@ -131,7 +174,7 @@ public class LandingPageActivity extends BaseActivity {
                     mySnackbar.setAction(R.string.snack_bar_retry_label, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            fetchData(characterName);
+                            fetchData();
                         }
                     });
                     mySnackbar.show();
@@ -140,6 +183,9 @@ public class LandingPageActivity extends BaseActivity {
         });
     }
 
+    /**
+     * @param date Date of date to be queried. If null query all records from DB.
+     */
     private void setQueryToDB(Date date) {
         if (results != null) {
             results.removeAllChangeListeners();
@@ -156,6 +202,7 @@ public class LandingPageActivity extends BaseActivity {
                 Log.d(TAG, "onChange size = " + elements.size());
                 if (isResumed) {
                     adapter.addData(elements);
+                    offset = elements.size();
                 }
             }
         });

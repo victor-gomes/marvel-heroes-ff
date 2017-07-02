@@ -14,6 +14,6 @@ import vgomes.marvelheroes.comms.models.CharacterItemModel;
 public interface MarvelApi {
 
     @GET(ApiConstants.CHARACTERS_ENDPOINT)
-    Call<BaseResponseWrapper<CharacterItemModel>> getCharactersList(@Query("nameStartsWith") String name);
+    Call<BaseResponseWrapper<CharacterItemModel>> getCharactersList(@Query("nameStartsWith") String name, @Query("limit") int limit, @Query("offset") int offset);
 
 }
