@@ -43,6 +43,7 @@ public class LandingPageActivity extends BaseActivity {
     private MarvelApi service;
     private RealmResults<RealmCharacter> results;
     private CharacterAdapter adapter;
+    private GridLayoutManager layoutManager;
     private int limit = 20;
     private int offset = 0;
     private int total = 0;
@@ -75,16 +76,8 @@ public class LandingPageActivity extends BaseActivity {
             }
         });
         //Create and add layout manager for recyclerView
-        final GridLayoutManager layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
+        layoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
         recycler.setLayoutManager(layoutManager);
-        //Add scroll listener to detect when list is in the end
-        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                onScrollCall(layoutManager);
-            }
-        });
         recycler.setAdapter(adapter);
         //Check if there are records stored in DB and add change listener
         setQueryToDB(null);
@@ -97,6 +90,7 @@ public class LandingPageActivity extends BaseActivity {
             @Override
             public void onSearchChanged(String s) {
                 Log.d(TAG, "onSearchChanged = " + s);
+                offset = 0;
                 if (isResumed) {
                     if (!TextUtils.isEmpty(s)) {
                         characterName = s;
@@ -123,6 +117,8 @@ public class LandingPageActivity extends BaseActivity {
             Log.d(TAG, "onLoadMore limit = " + limit + " offset = " + offset);
             if (adapter.getItemCount() < total) {
                 fetchData();
+            } else {
+                Log.d(TAG, "onLoadMore no more data total= " + total);
             }
         }
     }
@@ -133,13 +129,13 @@ public class LandingPageActivity extends BaseActivity {
         results = null;
         service = null;
         adapter = null;
+        scrollListener = null;
     }
 
     /**
      * Fetch data from Marvel API.
      */
     private void fetchData() {
-
         service.getCharactersList(characterName, limit, offset).enqueue(new Callback<BaseResponseWrapper<CharacterItemModel>>() {
 
 
@@ -155,10 +151,11 @@ public class LandingPageActivity extends BaseActivity {
                         Date date = java.util.Calendar.getInstance().getTime();
                         if (!TextUtils.isEmpty(characterName)) {
                             setQueryToDB(date);
+                            MHApplication.getDataComponent().addOrUpdateCharacter(MHApplication.getRealm(), characterList, date, false);
                         } else {
+                            MHApplication.getDataComponent().addOrUpdateCharacter(MHApplication.getRealm(), characterList, date, false);
                             setQueryToDB(null);
                         }
-                        MHApplication.getDataComponent().addOrUpdateCharacter(MHApplication.getRealm(), characterList, date);
                     }
                 }
             }
@@ -201,8 +198,12 @@ public class LandingPageActivity extends BaseActivity {
             public void onChange(RealmResults<RealmCharacter> elements) {
                 Log.d(TAG, "onChange size = " + elements.size());
                 if (isResumed) {
+                    recycler.removeOnScrollListener(scrollListener);
                     adapter.addData(elements);
                     offset = elements.size();
+                    if (elements.size() > 0) {
+                        recycler.addOnScrollListener(scrollListener);
+                    }
                 }
             }
         });
@@ -216,4 +217,12 @@ public class LandingPageActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
+
+    private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            onScrollCall(layoutManager);
+        }
+    };
 }

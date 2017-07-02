@@ -88,6 +88,8 @@ public class CharacterDetailsActivity extends BaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        //this is just an example of how to I could store data in case the activity was reconstructed (because of rotation our memory requirement)
+        //I have not done in in the other activity because I believe that this is not essential to this exercise and I don't have a lot of time.
         outState.putInt(SAVED_CHARACTER_ID, characterId);
         super.onSaveInstanceState(outState);
     }

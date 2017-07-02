@@ -15,5 +15,5 @@ import vgomes.marvelheroes.interfaces.IDataListener;
 
 public interface IRealmComponent {
 
-    RealmAsyncTask addOrUpdateCharacter(Realm realm, final CharacterItemModel[] list, final Date addedDate);
+    RealmAsyncTask addOrUpdateCharacter(Realm realm, final CharacterItemModel[] list, final Date addedDate, boolean delete);
 }

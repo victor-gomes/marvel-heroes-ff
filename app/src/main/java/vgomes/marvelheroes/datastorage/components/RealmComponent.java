@@ -23,12 +23,15 @@ import vgomes.marvelheroes.datastorage.realmmodels.RealmSummary;
 public class RealmComponent implements IRealmComponent {
 
     @Override
-    public RealmAsyncTask addOrUpdateCharacter(Realm realm, final CharacterItemModel[] list, final Date addedDate) {
+    public RealmAsyncTask addOrUpdateCharacter(Realm realm, final CharacterItemModel[] list, final Date addedDate, final boolean delete) {
 
         return realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 if (list != null && list.length > 0) {
+                    if (delete) {
+                        deleteRealmCharacters(realm);
+                    }
                     Log.d("DEBUG", "Total elements = " + list.length);
                     for (CharacterItemModel character : list) {
                         createRealmCharacter(realm, character, addedDate);
@@ -71,35 +74,6 @@ public class RealmComponent implements IRealmComponent {
             }
             realmCharacterList.deleteAllFromRealm();
         }
-    }
-
-    private CharacterItemModel getCharacterFromRealm(RealmCharacter realmCharacter) {
-        CharacterItemModel character = new CharacterItemModel();
-
-        character.setName(realmCharacter.getName());
-        character.setDescription(realmCharacter.getDescription());
-        character.setModified(realmCharacter.getModified());
-        character.setResourceURI(realmCharacter.getResourceURI());
-
-        character.setComics(getSummaryFromRealm(realmCharacter.getComics()));
-        character.setEvents(getSummaryFromRealm(realmCharacter.getEvents()));
-        character.setSeries(getSummaryFromRealm(realmCharacter.getSeries()));
-        character.setStories(getSummaryFromRealm(realmCharacter.getStories()));
-
-        return character;
-    }
-
-    private CharacterParticipationsModel getSummaryFromRealm(RealmList<RealmSummary> realmList) {
-        CharacterParticipationsModel result = new CharacterParticipationsModel();
-        ParticipationsSummaryModel[] resultsList = new ParticipationsSummaryModel[realmList.size()];
-        for (int i = 0; i < realmList.size(); i++) {
-            ParticipationsSummaryModel bsm = new ParticipationsSummaryModel();
-            bsm.setName(realmList.get(i).getName());
-            bsm.setResourceURI(realmList.get(i).getResourceURI());
-            resultsList[i] = bsm;
-        }
-        result.setItems(resultsList);
-        return result;
     }
 
     private void createRealmCharacter(Realm realm, CharacterItemModel character, final Date addedDate) {
