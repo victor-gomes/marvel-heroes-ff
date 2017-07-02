@@ -13,6 +13,7 @@ import android.transition.Slide;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
 
 import java.util.Date;
 
@@ -43,6 +44,8 @@ public class LandingPageActivity extends BaseActivity {
     RecyclerView recycler;
     @BindView(R.id.tool_bar_ctb)
     CustomToolBar toolBarCtb;
+    @BindView(R.id.loading_pb)
+    ProgressBar loadingPb;
 
     private MarvelApi service;
     private RealmResults<RealmCharacter> results;
@@ -152,6 +155,7 @@ public class LandingPageActivity extends BaseActivity {
      */
     private void fetchData() {
         isLoading = true;
+        loadingPb.setVisibility(View.VISIBLE);
         service.getCharactersList(characterName, limit, offset).enqueue(new Callback<BaseResponseWrapper<CharacterItemModel>>() {
 
 
@@ -175,6 +179,7 @@ public class LandingPageActivity extends BaseActivity {
                     }
                 }
                 isLoading = false;
+                loadingPb.setVisibility(View.GONE);
             }
 
             @Override
@@ -194,6 +199,7 @@ public class LandingPageActivity extends BaseActivity {
                     mySnackbar.show();
                 }
                 isLoading = false;
+                loadingPb.setVisibility(View.GONE);
             }
         });
     }

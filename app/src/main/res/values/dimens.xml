@@ -23,4 +23,6 @@
     <dimen name="character_details_item_text_size">14sp</dimen>
     <dimen name="character_details_item_margin">25dp</dimen>
     <dimen name="character_details_title_margin">20dp</dimen>
+
+    <dimen name="character_progress_bar_margin">10dp</dimen>
 </resources>

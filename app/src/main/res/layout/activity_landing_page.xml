@@ -16,4 +16,13 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tool_bar_ctb" />
 
+    <ProgressBar
+        android:id="@+id/loading_pb"
+        style="?android:progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="@dimen/character_progress_bar_margin"
+        android:visibility="gone" />
 </RelativeLayout>
