@@ -22,4 +22,10 @@
         <item name="android:maxLines">1</item>
     </style>
 
+    <style name="DetailsListTextStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">start|center</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
 </resources>

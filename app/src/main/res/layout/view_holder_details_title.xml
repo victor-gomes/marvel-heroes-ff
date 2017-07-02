@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/label_tv"
+        style="@style/DetailsListTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:layout_marginStart="@dimen/character_details_title_margin"
+        android:textSize="@dimen/character_details_title_text_size"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginTop="@dimen/title_divider_margins"
+        android:layout_marginBottom="@dimen/title_divider_margins"
+        android:layout_marginStart="@dimen/title_divider_sides_margins"
+        android:layout_marginEnd="@dimen/title_divider_sides_margins"
+        android:background="@android:color/white"
+        android:alpha="0.3"/>
+
+</LinearLayout>

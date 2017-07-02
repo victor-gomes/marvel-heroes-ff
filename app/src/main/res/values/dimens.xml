@@ -13,4 +13,14 @@
     <dimen name="tool_bar_margin_to_icon">10dp</dimen>
     <dimen name="tool_bar_search_text_size">16sp</dimen>
     <dimen name="tool_bar_clear_icon_margin">30dp</dimen>
+
+    <dimen name="character_details_thumbnail_height">350dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="divider_margins">20dp</dimen>
+    <dimen name="title_divider_margins">5dp</dimen>
+    <dimen name="title_divider_sides_margins">20dp</dimen>
+    <dimen name="character_details_title_text_size">17sp</dimen>
+    <dimen name="character_details_item_text_size">14sp</dimen>
+    <dimen name="character_details_item_margin">25dp</dimen>
+    <dimen name="character_details_title_margin">20dp</dimen>
 </resources>

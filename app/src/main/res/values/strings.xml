@@ -3,4 +3,9 @@
     <string name="server_error_generic_message">Something went wrong.</string>
     <string name="snack_bar_retry_label">Try again</string>
     <string name="tool_bar_search_hint_label">Insert hero name</string>
+
+    <string name="character_details_comic_title">Comics</string>
+    <string name="character_details_series_title">Series</string>
+    <string name="character_details_events_title">Events</string>
+    <string name="character_details_stories_title">Stories</string>
 </resources>

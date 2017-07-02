@@ -122,4 +122,17 @@ public class CustomToolBar extends Toolbar {
         searchInputEt.setVisibility(GONE);
         isSearching = false;
     }
+
+    public void setTitle(String s) {
+        titleTv.setText(s);
+    }
+
+    public void setSearchBar(boolean hasSearchBar) {
+        if(hasSearchBar) {
+            searchIv.setVisibility(VISIBLE);
+        }else {
+            searchIv.setVisibility(GONE);
+        }
+
+    }
 }

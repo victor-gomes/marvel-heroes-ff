@@ -1,5 +1,6 @@
 package vgomes.marvelheroes.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.Date;
 
@@ -48,12 +48,14 @@ public class LandingPageActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
-        setSupportActionBar(toolBarCtb);
         ButterKnife.bind(this);
+        setSupportActionBar(toolBarCtb);
         adapter = new CharacterAdapter(new ICharacterViewHolderClick<RealmCharacter>() {
             @Override
             public void onItemClick(RealmCharacter item) {
-                Toast.makeText(getApplicationContext(), "onItemClick", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(LandingPageActivity.this, CharacterDetailsActivity.class);
+                i.putExtra(CharacterDetailsActivity.EXTRA_CHARACTER_ID, item.getId());
+                startActivity(i);
             }
 
             @Override
@@ -110,7 +112,7 @@ public class LandingPageActivity extends BaseActivity {
                         Date date = java.util.Calendar.getInstance().getTime();
                         if (!TextUtils.isEmpty(characterName)) {
                             setQueryToDB(date);
-                        }else {
+                        } else {
                             setQueryToDB(null);
                         }
                         MHApplication.getDataComponent().addOrUpdateCharacter(MHApplication.getRealm(), characterList, date);
