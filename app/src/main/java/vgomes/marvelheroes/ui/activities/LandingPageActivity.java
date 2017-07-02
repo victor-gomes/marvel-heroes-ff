@@ -48,6 +48,7 @@ public class LandingPageActivity extends BaseActivity {
     private int offset = 0;
     private int total = 0;
     private String characterName = null;
+    private boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,9 @@ public class LandingPageActivity extends BaseActivity {
         if (lastVisiblePosition == totalItemCount - 1) {
             Log.d(TAG, "onLoadMore limit = " + limit + " offset = " + offset);
             if (adapter.getItemCount() < total) {
-                fetchData();
+                if (!isLoading) {
+                    fetchData();
+                }
             } else {
                 Log.d(TAG, "onLoadMore no more data total= " + total);
             }
@@ -136,6 +139,7 @@ public class LandingPageActivity extends BaseActivity {
      * Fetch data from Marvel API.
      */
     private void fetchData() {
+        isLoading = true;
         service.getCharactersList(characterName, limit, offset).enqueue(new Callback<BaseResponseWrapper<CharacterItemModel>>() {
 
 
@@ -158,6 +162,7 @@ public class LandingPageActivity extends BaseActivity {
                         }
                     }
                 }
+                isLoading = false;
             }
 
             @Override
@@ -167,7 +172,7 @@ public class LandingPageActivity extends BaseActivity {
                 //In this example we will only display a general error message
                 if (isResumed) {
                     Snackbar mySnackbar = Snackbar.make(findViewById(R.id.activity_root_cl),
-                            R.string.server_error_generic_message, Snackbar.LENGTH_SHORT);
+                            R.string.server_error_generic_message, Snackbar.LENGTH_LONG);
                     mySnackbar.setAction(R.string.snack_bar_retry_label, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -176,6 +181,7 @@ public class LandingPageActivity extends BaseActivity {
                     });
                     mySnackbar.show();
                 }
+                isLoading = false;
             }
         });
     }
