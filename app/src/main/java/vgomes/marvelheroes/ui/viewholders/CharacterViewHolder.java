@@ -1,6 +1,7 @@
 package vgomes.marvelheroes.ui.viewholders;
 
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,12 +40,12 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder {
     public void setData(final RealmCharacter data, final ICharacterViewHolderClick<RealmCharacter> listener) {
         nameTv.setText(data.getName());
         Glide.with(itemView.getContext()).load(String.format(Locale.getDefault(), "%s%s%s", data.getThumbnail().getPath(), ".", data.getThumbnail().getExtension())).into(backgroundIv);
-
+        ViewCompat.setTransitionName(backgroundIv, ViewCompat.getTransitionName(backgroundIv));
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (listener != null) {
-                    listener.onItemClick(data);
+                    listener.onItemClick(data, itemView);
                 }
             }
         });

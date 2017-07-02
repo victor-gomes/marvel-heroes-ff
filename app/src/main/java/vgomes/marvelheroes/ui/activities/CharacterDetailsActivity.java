@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ public class CharacterDetailsActivity extends BaseActivity {
 
     public static final String TAG = CharacterDetailsActivity.class.getSimpleName();
     public static final String EXTRA_CHARACTER_ID = "EXTRA_CHARACTER_ID";
+    public static final String EXTRA_ANIMAL_IMAGE_TRANSITION_NAME = "EXTRA_ANIMAL_IMAGE_TRANSITION_NAME";
     public static final String SAVED_CHARACTER_ID = "SAVED_CHARACTER_ID";
     @BindView(R.id.background_iv)
     ImageView backgroundIv;
@@ -57,11 +60,14 @@ public class CharacterDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setExitTransition(new Slide());
         setContentView(R.layout.activity_character_details);
         ButterKnife.bind(this);
         setSupportActionBar(toolBarCtb);
         if (savedInstanceState == null) {
             characterId = getIntent().getExtras().getInt(EXTRA_CHARACTER_ID, -1);
+
         } else {
             characterId = savedInstanceState.getInt(SAVED_CHARACTER_ID, -1);
         }
@@ -128,7 +134,8 @@ public class CharacterDetailsActivity extends BaseActivity {
 
     private void setHeaderData(final RealmCharacter data) {
         nameTv.setText(data.getName());
-        Glide.with(this).load(String.format(Locale.getDefault(), "%s%s%s", data.getThumbnail().getPath(), ".", data.getThumbnail().getExtension())).into(backgroundIv);
+        Glide.with(CharacterDetailsActivity.this).load(String.format(Locale.getDefault(), "%s%s%s", data.getThumbnail().getPath(), ".", data.getThumbnail().getExtension())).into(backgroundIv);
+
         final boolean isFavorite = data.isFavorite();
         favoriteIv.setBackground(ContextCompat.getDrawable(this, isFavorite ? R.drawable.ic_favorite_white : R.drawable.ic_favorite_border_white));
         favoriteIv.setOnClickListener(new View.OnClickListener() {

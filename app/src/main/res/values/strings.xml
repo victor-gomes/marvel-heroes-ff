@@ -8,4 +8,5 @@
     <string name="character_details_series_title">Series</string>
     <string name="character_details_events_title">Events</string>
     <string name="character_details_stories_title">Stories</string>
+    <string name="character_details_transition_name">detailsTransitionImage</string>
 </resources>
